@@ -1,0 +1,19 @@
+If automatic coregistration fails:
+
+1. Open SPM and click display
+2. Select MRI NIfTI
+3. Move crosshair to estimated Talairach origin
+4. Write down crosshair position in mm (right, forward, up)
+5. Click display
+6. Select CT NIfTI
+7. Move crosshair to estimated Talairach origin
+8. Write down crosshair position in mm (right, forward, up)
+9. Figure out the values by which you would have to adjust the CT crosshair position to match the MRI crosshair position (to within a few mm).
+10. Enter these values into the boxes labeled "right", "forward", and "up".
+11. Hit return
+12. Click reorient images
+13. Select the CT scan again
+14. Click done
+15. Run the coregistration as normal
+
+This might only correct large translations between the two scans.
