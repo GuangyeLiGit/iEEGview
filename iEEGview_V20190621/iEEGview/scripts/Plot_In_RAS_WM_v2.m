@@ -38,8 +38,16 @@ if eleIndex==2
 %         locindex=find(sum(abs(vert_loc),2)==0);
             [~,locindex]=min(sum(vert_loc.^2,2));
             locindex = locindex(1);
+			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:)-size(cortex.vert,1),1)).^2,2);
+			IndexInRange=find(CortDis<=5^2);
         if locindex<=size(M(2).vert,1) % left hemisphere
-            ana_loc=find(M(2).table(:,5)==M(2).BV(locindex));
+		    ana_locall=[];
+            for ecgv=1:length(IndexInRange)
+            ana_locall(ecgv)=find(M(2).table(:,5)==M(2).BV(IndexInRange(ecgv)));
+			end
+			EcgAnaAll=tabulate(ana_locall);
+            [~,maxInd]=max(EcgAnaAll(:,3));
+			ana_loc=EcgAnaAll(maxInd(1),1);
             elec_Info_Final.ana_label_name{1,ecg}=M(2).struct_names{ana_loc};
             Cord_ele_accu(:,ecg)=inv(Mat)*[tala.electrodes(ecg,:),1]';
             Cord_ele(:,ecg)=round(inv(Mat)*[tala.electrodes(ecg,:),1]');
@@ -47,8 +55,14 @@ if eleIndex==2
             elec_Info_Final.ana_label_index(1,ecg)=ana_loc;
             elec_Info_Final.ana_pos_accu{1,ecg}=[Cord_ele_accu(2,ecg),Cord_ele_accu(1,ecg),Cord_ele_accu(3,ecg)];
         else    % right hemisphere
-            locindex=locindex-size(M(2).vert,1);
-            ana_loc=find(M(1).table(:,5)==M(1).BV(locindex));
+            IndexInRange=IndexInRange-size(M(2).vert,1);
+		    ana_locall=[];
+            for ecgv=1:length(IndexInRange)
+            ana_locall(ecgv)=find(M(1).table(:,5)==M(1).BV(IndexInRange(ecgv)));
+			end
+			EcgAnaAll=tabulate(ana_locall);
+            [~,maxInd]=max(EcgAnaAll(:,3));
+			ana_loc=EcgAnaAll(maxInd(1),1);
             elec_Info_Final.ana_label_name{1,ecg}=M(1).struct_names{ana_loc};
             Cord_ele_accu(:,ecg)=inv(Mat)*[tala.electrodes(ecg,:),1]';
             Cord_ele(:,ecg)=round(inv(Mat)*[tala.electrodes(ecg,:),1]');
@@ -158,8 +172,16 @@ diam = ElectrodeLength.Diameter;
             vert_loc=cortex.vert-repmat(ecogelectrodes(ecg,:),size(cortex.vert,1),1);
             [~,locindex]=min(sum(vert_loc.^2,2));
             locindex = locindex(1);
+			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:)-size(cortex.vert,1),1)).^2,2);
+			IndexInRange=find(CortDis<=5^2);
             if locindex<=size(M(2).vert,1) % left hemisphere
-                ana_loc=find(M(2).table(:,5)==M(2).BV(locindex));
+                ana_locall=[];
+                for ecgv=1:length(IndexInRange)
+                    ana_locall(ecgv)=find(M(2).table(:,5)==M(2).BV(IndexInRange(ecgv)));
+                end
+                EcgAnaAll=tabulate(ana_locall);
+                [~,maxInd]=max(EcgAnaAll(:,3));
+                ana_loc=EcgAnaAll(maxInd(1),1);
                 elec_Info_Final.ana_label_name{1,elec_Info_Final.seeg_pos+ecg}=M(2).struct_names{ana_loc};
                 Cord_ele_accu(:,elec_Info_Final.seeg_pos+ecg)=inv(Mat)*[ecogelectrodes(ecg,:),1]';
                 Cord_ele(:,elec_Info_Final.seeg_pos+ecg)=round(inv(Mat)*[ecogelectrodes(ecg,:),1]');
@@ -169,17 +191,25 @@ diam = ElectrodeLength.Diameter;
                 elec_Info_Final.ana_pos_accu{1,elec_Info_Final.seeg_pos+ecg}=[Cord_ele_accu(2,elec_Info_Final.seeg_pos+ecg),...
                     Cord_ele_accu(1,elec_Info_Final.seeg_pos+ecg),Cord_ele_accu(3,elec_Info_Final.seeg_pos+ecg)];
             else    % right hemisphere
-                locindex=locindex-size(M(2).vert,1);
-                ana_loc=find(M(1).table(:,5)==M(1).BV(locindex));
+                IndexInRange=IndexInRange-size(M(2).vert,1);
+                ana_locall=[];
+                for ecgv=1:length(IndexInRange)
+                    ana_locall(ecgv)=find(M(1).table(:,5)==M(1).BV(IndexInRange(ecgv)));
+                end
+                EcgAnaAll=tabulate(ana_locall);
+                [~,maxInd]=max(EcgAnaAll(:,3));
+                ana_loc=EcgAnaAll(maxInd(1),1);
                 elec_Info_Final.ana_label_name{1,elec_Info_Final.seeg_pos+ecg}=M(1).struct_names{ana_loc};
                 Cord_ele_accu(:,elec_Info_Final.seeg_pos+ecg)=inv(Mat)*[ecogelectrodes(ecg,:),1]';
                 Cord_ele(:,elec_Info_Final.seeg_pos+ecg)=round(inv(Mat)*[ecogelectrodes(ecg,:),1]');
                 elec_Info_Final.ano_pos{1,elec_Info_Final.seeg_pos+ecg}=[Cord_ele(2,elec_Info_Final.seeg_pos+ecg),...
-                Cord_ele(1,elec_Info_Final.seeg_pos+ecg),Cord_ele(3,elec_Info_Final.seeg_pos+ecg)];
+                    Cord_ele(1,elec_Info_Final.seeg_pos+ecg),Cord_ele(3,elec_Info_Final.seeg_pos+ecg)];
                 elec_Info_Final.ana_label_index(1,elec_Info_Final.seeg_pos+ecg)=ana_loc;
                 elec_Info_Final.ana_pos_accu{1,elec_Info_Final.seeg_pos+ecg}=[Cord_ele_accu(2,elec_Info_Final.seeg_pos+ecg),...
-                Cord_ele_accu(1,elec_Info_Final.seeg_pos+ecg),Cord_ele_accu(3,elec_Info_Final.seeg_pos+ecg)];
+                    Cord_ele_accu(1,elec_Info_Final.seeg_pos+ecg),Cord_ele_accu(3,elec_Info_Final.seeg_pos+ecg)];
             end
+			elec_Info_Final.PTD(1,elec_Info_Final.seeg_pos+ecg)=1;
+            elec_Info_Final.LocalPTD(1,elec_Info_Final.seeg_pos+ecg)=1;
         end
     end
 else
