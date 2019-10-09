@@ -38,10 +38,11 @@ if eleIndex==2
 %         locindex=find(sum(abs(vert_loc),2)==0);
             [~,locindex]=min(sum(vert_loc.^2,2));
             locindex = locindex(1);
-			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:)-size(cortex.vert,1),1)).^2,2);
+			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:),size(cortex.vert,1),1)).^2,2);
 			IndexInRange=find(CortDis<=5^2);
         if locindex<=size(M(2).vert,1) % left hemisphere
 		    ana_locall=[];
+            IndexInRang=setdiff(IndexInRange,[(size(M(2).vert,1)+1):length(cortex.vert)]);
             for ecgv=1:length(IndexInRange)
             ana_locall(ecgv)=find(M(2).table(:,5)==M(2).BV(IndexInRange(ecgv)));
 			end
@@ -55,6 +56,7 @@ if eleIndex==2
             elec_Info_Final.ana_label_index(1,ecg)=ana_loc;
             elec_Info_Final.ana_pos_accu{1,ecg}=[Cord_ele_accu(2,ecg),Cord_ele_accu(1,ecg),Cord_ele_accu(3,ecg)];
         else    % right hemisphere
+            IndexInRang=setdiff(IndexInRange,[1:size(M(2).vert,1)]);
             IndexInRange=IndexInRange-size(M(2).vert,1);
 		    ana_locall=[];
             for ecgv=1:length(IndexInRange)
@@ -172,10 +174,11 @@ diam = ElectrodeLength.Diameter;
             vert_loc=cortex.vert-repmat(ecogelectrodes(ecg,:),size(cortex.vert,1),1);
             [~,locindex]=min(sum(vert_loc.^2,2));
             locindex = locindex(1);
-			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:)-size(cortex.vert,1),1)).^2,2);
+			CortDis=sum((cortex.vert-repmat(cortex.vert(locindex,:),size(cortex.vert,1),1)).^2,2);
 			IndexInRange=find(CortDis<=5^2);
             if locindex<=size(M(2).vert,1) % left hemisphere
                 ana_locall=[];
+                IndexInRang=setdiff(IndexInRange,[(size(M(2).vert,1)+1):length(cortex.vert)]);
                 for ecgv=1:length(IndexInRange)
                     ana_locall(ecgv)=find(M(2).table(:,5)==M(2).BV(IndexInRange(ecgv)));
                 end
@@ -191,6 +194,7 @@ diam = ElectrodeLength.Diameter;
                 elec_Info_Final.ana_pos_accu{1,elec_Info_Final.seeg_pos+ecg}=[Cord_ele_accu(2,elec_Info_Final.seeg_pos+ecg),...
                     Cord_ele_accu(1,elec_Info_Final.seeg_pos+ecg),Cord_ele_accu(3,elec_Info_Final.seeg_pos+ecg)];
             else    % right hemisphere
+                IndexInRang=setdiff(IndexInRange,[1:size(M(2).vert,1)]);
                 IndexInRange=IndexInRange-size(M(2).vert,1);
                 ana_locall=[];
                 for ecgv=1:length(IndexInRange)
