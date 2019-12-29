@@ -217,7 +217,7 @@ axes(handles.axes_Sagittal_Atlas);
 imagesc(squeeze(handles.VOLWM.vol(:,S,:)));
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
@@ -254,7 +254,7 @@ ImgA=imtransform(ImgA,tform,'nearest');
 imagesc(ImgA);
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
@@ -288,7 +288,7 @@ axes(handles.axes_Coronal_Atlas);
 imagesc(squeeze(handles.VOLWM.vol(:,:,S)));
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
@@ -412,7 +412,7 @@ axes(handles.axes_Sagittal_Atlas);%toc
 imagesc(squeeze(handles.VOLWM.vol(:,S,:)));%toc
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
@@ -512,7 +512,7 @@ ImgA=imtransform(ImgA,tform,'nearest');
 imagesc(ImgA);
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
@@ -608,7 +608,7 @@ axes(handles.axes_Coronal_Atlas);
 imagesc(squeeze(handles.VOLWM.vol(:,:,S)));
 axis off;
 box off;
-colormap(handles.AsegWM.color);
+% colormap(handles.AsegWM.color);
 hold on;
 tmpelectrodename = {};
 for j=1:elec_num
